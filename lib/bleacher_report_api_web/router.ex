@@ -7,5 +7,7 @@ defmodule BleacherReportApiWeb.Router do
 
   scope "/api", BleacherReportApiWeb do
     pipe_through :api
+
+    resources "/reactions", ReactionController, except: [:new, :edit]
   end
 end
