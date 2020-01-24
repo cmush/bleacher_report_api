@@ -9,9 +9,9 @@ defmodule BleacherReportApi.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      BleacherReportApiWeb.Endpoint
-      # Starts a worker by calling: BleacherReportApi.Worker.start_link(arg)
-      # {BleacherReportApi.Worker, arg},
+      BleacherReportApiWeb.Endpoint,
+      # ensure cache is always started with the application (and supervised off course!)
+      {BleacherReportApi.ReactionsCacheWrapper, :ok}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
