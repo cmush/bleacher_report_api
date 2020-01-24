@@ -62,5 +62,12 @@ defmodule BleacherReportApiWeb.ReactionControllerTest do
       %{"content_id" => "some content_id", "reactions_count" => %{"fire" => 1}} =
         json_response(conn, 200)
     end
+
+    test "return 404 if content being reacted to doesn't exist", %{conn: conn} do
+      conn =
+        get(conn, Routes.reaction_path(conn, :count_reactions, "invalid_id"))
+
+      assert %{"errors" => %{"detail" => "Not Found"}} == json_response(conn, 404)
+    end
   end
 end
