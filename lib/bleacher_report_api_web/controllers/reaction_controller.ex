@@ -5,13 +5,47 @@ defmodule BleacherReportApiWeb.ReactionController do
 
   action_fallback BleacherReportApiWeb.FallbackController
 
-  def create(conn, %{"reaction" => reaction_params}) do
-    #    with {:ok, %Reaction{} = reaction} <- Reactions.create_reaction(reaction_params) do
-    #      conn
-    #      |> put_status(:created)
-    #      |> put_resp_header("location", Routes.reaction_path(conn, :show, reaction))
-    #      |> render("show.json", reaction: reaction)
-    #    end
-    :ok
+  def react(
+        conn,
+        %{
+          "action" => "add",
+          "reaction_type" => "fire",
+          "type" => "reaction"
+        } = reaction_params
+      ) do
+    with {:ok, _reaction} <- Reactions.add_reaction(reaction_params) do
+      conn
+      |> put_status(:created)
+      # |> put_resp_header("location", Routes.reaction_path(conn, :react, reaction))
+      |> render("show.json", reaction: reaction_params)
+    end
+  end
+
+  def react(
+        conn,
+        %{
+          "action" => "remove",
+          "reaction_type" => "fire",
+          "type" => "reaction"
+        } = reaction_params
+      ) do
+    with {:ok, _reaction} <- Reactions.remove_reaction(reaction_params) do
+      conn
+      |> put_status(:created)
+      # |> put_resp_header("location", Routes.reaction_path(conn, :react, reaction))
+      |> render("show.json", reaction: reaction_params)
+    end
+  end
+
+  def count_reactions(conn, %{"content_id" => content_id}) do
+    with {:ok, reactions} <- Reactions.list_content_reactions(content_id) do
+      conn
+        |> put_status(:ok)
+        # |> put_resp_header("location", Routes.reaction_path(conn, :count_reactions, reaction))
+        |> json(%{
+          content_id: content_id,
+          reactions_count: %{fire: Enum.count(reactions)}
+        })
+    end
   end
 end

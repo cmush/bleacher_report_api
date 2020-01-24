@@ -10,14 +10,21 @@ defmodule BleacherReportApiWeb.ReactionView do
     %{data: render_one(reaction, ReactionView, "reaction.json")}
   end
 
-  def render("reaction.json", %{reaction: reaction}) do
+  def render("reaction.json", %{
+        reaction: %{
+          "action" => action,
+          "content_id" => content_id,
+          "reaction_type" => reaction_type,
+          "type" => type,
+          "user_id" => user_id
+        }
+      }) do
     %{
-      id: reaction.id,
-      type: reaction.type,
-      action: reaction.action,
-      content_id: reaction.content_id,
-      user_id: reaction.user_id,
-      reaction_type: reaction.reaction_type
+      type: type,
+      action: action,
+      content_id: content_id,
+      user_id: user_id,
+      reaction_type: reaction_type
     }
   end
 end

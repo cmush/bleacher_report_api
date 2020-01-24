@@ -5,9 +5,10 @@ defmodule BleacherReportApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", BleacherReportApiWeb do
+  scope "/", BleacherReportApiWeb do
     pipe_through :api
 
-    post "/reaction", ReactionController
+    post "/reaction", ReactionController, :react
+    get "/reaction_counts/:content_id", ReactionController, :count_reactions
   end
 end
