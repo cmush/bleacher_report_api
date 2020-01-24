@@ -48,15 +48,13 @@ defmodule BleacherReportApi.Reactions do
       {:error, ...}
 
   """
-  def remove_reaction(
-        %{
-          "action" => "remove",
-          "content_id" => content_id,
-          "reaction_type" => "fire",
-          "type" => "reaction",
-          "user_id" => user_id
-        }
-      ) do
+  def remove_reaction(%{
+        "action" => "remove",
+        "content_id" => content_id,
+        "reaction_type" => "fire",
+        "type" => "reaction",
+        "user_id" => user_id
+      }) do
     RCWrapper.remove_cache_reaction({content_id, user_id})
   end
 

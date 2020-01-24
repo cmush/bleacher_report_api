@@ -40,12 +40,12 @@ defmodule BleacherReportApiWeb.ReactionController do
   def count_reactions(conn, %{"content_id" => content_id}) do
     with {:ok, reactions} <- Reactions.list_content_reactions(content_id) do
       conn
-        |> put_status(:ok)
-        # |> put_resp_header("location", Routes.reaction_path(conn, :count_reactions, reaction))
-        |> json(%{
-          content_id: content_id,
-          reactions_count: %{fire: Enum.count(reactions)}
-        })
+      |> put_status(:ok)
+      # |> put_resp_header("location", Routes.reaction_path(conn, :count_reactions, reaction))
+      |> json(%{
+        content_id: content_id,
+        reactions_count: %{fire: Enum.count(reactions)}
+      })
     end
   end
 end
